@@ -1,5 +1,17 @@
 #include "philo.h"
 
+void	init_forks(pthread_mutex_t *forks, int philo_num)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo_num)
+	{
+		pthread_mutex_init(&forks[i], NULL);
+		i++;
+	}
+}
+
 void	init_program(t_program *program, t_philo *philos)
 {
 	program->dead_flag = 0;

@@ -35,12 +35,14 @@ int	main(int argc, char **argv)
 {
 	t_program		program;
 	t_philo			philos[200];
+	pthread_mutex_t	forks[200];
 
 	if (argc != 5 && argc != 6)
 		return (write(2, "Wrong argument count\n", 22), 1);
 	if (check_valid_args(argv) == 1)
 		return (1);
 	init_program(&program, philos);
+	init_forks(forks, ft_atoi(argv[1]));
 
 	return (0);
 }
