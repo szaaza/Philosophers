@@ -1,3 +1,4 @@
+#include "philo.h"
 
 int	ft_atoi(const char *s)
 {
@@ -22,4 +23,13 @@ int	ft_atoi(const char *s)
 		i++;
 	}
 	return (nbr * sign);
+}
+
+long	get_current_time(void)
+{
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL) == -1)
+		return (write(2, "gettimeofday error\n", 20), -1);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

@@ -1,0 +1,11 @@
+
+.DS_Store
+tests/
+.vscode/
+*.out
+*.dSYM/
+*.o
+*.a
+*.txt
+*.md
+*.h
