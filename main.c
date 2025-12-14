@@ -30,6 +30,14 @@ int	check_valid_args(char **argv)
 		return (write(2, "Invalid number of times to eat\n", 32), 1);
 	return (0);
 }
+static void	initialize_simulation(t_program *program, t_philo *philos,
+				pthread_mutex_t *forks, char **argv)
+{
+	init_program(program, philos);
+	init_forks(forks, ft_atoi(argv[1]));
+	setup_philosopher_data(philos, program, argv, ft_atoi(argv[1]));
+	assign_forks_to_philos(philos, forks, ft_atoi(argv[1]));
+}
 
 int	main(int argc, char **argv)
 {
@@ -41,8 +49,8 @@ int	main(int argc, char **argv)
 		return (write(2, "Wrong argument count\n", 22), 1);
 	if (check_valid_args(argv) == 1)
 		return (1);
-	init_program(&program, philos);
-	init_forks(forks, ft_atoi(argv[1]));
+	initialize_simulation(&program, philos, forks, argv);
+
 
 	return (0);
 }
