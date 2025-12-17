@@ -97,7 +97,9 @@ int	main(int argc, char **argv)
 	if (check_valid_args(argv) == 1)
 		return (1);
 	initialize_simulation(&program, philos, forks, argv);
-
+	
+	ucheck(&program, philos, ft_atoi(argv[1]));
+	
 	run_simulation(&program, forks);
 
 	return (0);
