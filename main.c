@@ -38,6 +38,10 @@ static void	initialize_simulation(t_program *program, t_philo *philos,
 	setup_philosopher_data(philos, program, argv, ft_atoi(argv[1]));
 	assign_forks_to_philos(philos, forks, ft_atoi(argv[1]));
 }
+static void	run_simulation(t_program *program, pthread_mutex_t *forks)
+{
+	thread_create(program, forks);
+}
 
 int	main(int argc, char **argv)
 {
