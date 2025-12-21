@@ -43,64 +43,20 @@ static void	run_simulation(t_program *program, pthread_mutex_t *forks)
 	thread_create(program, forks);
 }
 
-#include <stdio.h> // Required for ucheck printf
 
-void	ucheck(t_program *program, t_philo *philos, int count)
+int main(int argc, char **argv)
 {
-	int	i;
-	
-	printf("\n=== UCHECK DIAGNOSTICS ===\n");
-	printf("Start Time: %ld\n", program->start_time);
-	printf("Philosophers: %d\n", count);
-	printf("------------------------------------------\n");
-	
-	i = 0;
-	while (i < count)
-	{
-		printf("[Philo %d]\n", philos[i].id);
-		// Check 1: Verify Fork Pointers exist
-		if (!philos[i].l_fork || !philos[i].r_fork)
-		printf("  ERROR: Fork pointers are NULL!\n");
-		else
-		{
-			// Check 2: Print addresses to visualize the circle
-			printf("  Left Fork Addr:  %p\n", (void *)philos[i].l_fork);
-			printf("  Right Fork Addr: %p\n", (void *)philos[i].r_fork);
-			
-			// Check 3: Logic Verification (Circular Table)
-			// The Left fork of current philo should be the Right fork of the next philo
-			// (depending on your specific index logic in init.philo.c)
-			if (i < count - 1)
-			{
-				if (philos[i].l_fork == philos[i + 1].r_fork)
-				printf("  OK: Shared fork verified with Philo %d\n", philos[i+1].id);
-				else
-				printf("  WARNING: Fork logic might be broken between %d and %d\n", 
-					philos[i].id, philos[i+1].id);
-				}
-			}
-			i++;
-		}
-		printf("=== UCHECK COMPLETE ===\n\n");
-	}
-	
+    t_program       program;
+    t_philo         philos[200];
+    pthread_mutex_t forks[200];
 
-
-int	main(int argc, char **argv)
-{
-	t_program		program;
-	t_philo			philos[200];
-	pthread_mutex_t	forks[200];
-
-	if (argc != 5 && argc != 6)
-		return (write(2, "Wrong argument count\n", 22), 1);
-	if (check_valid_args(argv) == 1)
-		return (1);
-	initialize_simulation(&program, philos, forks, argv);
-	
-	ucheck(&program, philos, ft_atoi(argv[1]));
-	
-	run_simulation(&program, forks);
-
-	return (0);
+    if (argc != 5 && argc != 6)
+        return (write(2, "Wrong argument count\n", 22), 1);
+    
+    if (check_valid_args(argv) == 1)
+        return (1);
+    
+    initialize_simulation(&program, philos, forks, argv);
+    run_simulation(&program, forks);
+    return (0);
 }

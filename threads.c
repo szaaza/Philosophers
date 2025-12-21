@@ -1,6 +1,6 @@
 #include "philo.h"
-
 // Thread-safe read of dead_flag
+
 int	is_simulation_over(t_philo *philo)
 {
 	int	result;
@@ -35,13 +35,13 @@ static void	take_forks(t_philo *philo)
 }
 
 // Update meal information
-static void	update_meal_info(t_philo *philo)
+static void update_meal_info(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->program->meal_lock);
-	print_message("is eating", philo, philo->id);
-	philo->last_meal = get_current_time();
-	philo->meals_eaten++;
-	pthread_mutex_unlock(&philo->program->meal_lock);
+    pthread_mutex_lock(&philo->program->meal_lock);
+    print_message("is eating", philo, philo->id);
+    philo->last_meal = get_current_time();
+    philo->meals_eaten++;
+    pthread_mutex_unlock(&philo->program->meal_lock);
 }
 
 // Release forks
@@ -49,6 +49,13 @@ static void	drop_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
+}
+
+static void finish_eating(t_philo *philo)
+{
+    pthread_mutex_lock(&philo->program->meal_lock);
+    philo->eating = 0;
+    pthread_mutex_unlock(&philo->program->meal_lock);
 }
 
 // Routine for eating
@@ -59,6 +66,7 @@ void	eat_routine(t_philo *philo)
 		return ;
 	update_meal_info(philo);
 	ft_usleep(philo->program->time_to_eat);
+    finish_eating(philo);  
 	drop_forks(philo);
 }
 
