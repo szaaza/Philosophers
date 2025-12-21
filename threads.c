@@ -38,6 +38,7 @@ static void	take_forks(t_philo *philo)
 static void update_meal_info(t_philo *philo)
 {
     pthread_mutex_lock(&philo->program->meal_lock);
+	philo->eating = 1;
     print_message("is eating", philo, philo->id);
     philo->last_meal = get_current_time();
     philo->meals_eaten++;
