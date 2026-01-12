@@ -1,4 +1,3 @@
-
 #include "philo.h"
 
 int	check_arg_content(char *arg)
@@ -30,6 +29,7 @@ int	check_valid_args(char **argv)
 		return (write(2, "Invalid number of times to eat\n", 32), 1);
 	return (0);
 }
+
 static void	initialize_simulation(t_program *program, t_philo *philos,
 				pthread_mutex_t *forks, char **argv)
 {
@@ -38,25 +38,28 @@ static void	initialize_simulation(t_program *program, t_philo *philos,
 	setup_philosopher_data(philos, program, argv, ft_atoi(argv[1]));
 	assign_forks_to_philos(philos, forks, ft_atoi(argv[1]));
 }
+
 static void	run_simulation(t_program *program, pthread_mutex_t *forks)
 {
 	thread_create(program, forks);
 }
 
-
 int main(int argc, char **argv)
 {
-    t_program       program;
-    t_philo         philos[200];
-    pthread_mutex_t forks[200];
+	t_program       program;
+	t_philo         philos[200];
+	pthread_mutex_t forks[200];
 
-    if (argc != 5 && argc != 6)
-        return (write(2, "Wrong argument count\n", 22), 1);
-    
-    if (check_valid_args(argv) == 1)
-        return (1);
-    
-    initialize_simulation(&program, philos, forks, argv);
-    run_simulation(&program, forks);
-    return (0);
+	if (argc != 5 && argc != 6)
+		return (write(2, "Wrong argument count\n", 22), 1);
+	
+	if (check_valid_args(argv) == 1)
+		return (1);
+	
+	initialize_simulation(&program, philos, forks, argv);
+	run_simulation(&program, forks);
+	
+	clean_exit(&program, forks);
+	
+	return (0);
 }
