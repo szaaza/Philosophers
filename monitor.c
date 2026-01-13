@@ -1,7 +1,7 @@
 #include "philo.h"
 
 // Get time since last meal safely
-static long	get_time_since_last_meal(t_philo *philo)
+long	get_time_since_last_meal(t_philo *philo)
 {
 	long	time_elapsed;
 	long	current_time;
@@ -14,7 +14,7 @@ static long	get_time_since_last_meal(t_philo *philo)
 }
 
 // Check if philosopher is currently eating
-static int	is_currently_eating(t_philo *philo)
+int	is_currently_eating(t_philo *philo)
 {
 	int	eating_status;
 
